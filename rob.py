@@ -26,6 +26,9 @@ GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(5, GPIO.OUT)
 GPIO.setup(6, GPIO.OUT)
 GPIO.setup(26, GPIO.OUT)
+GPIO.setup(14, GPIO.OUT)
+GPIO.output(14, GPIO.LOW)
+
 
 # Global Variables
 IP = "192.168.137.43"    # MODIFIABLE: Change server IP as needed. Should be hardcoded already
