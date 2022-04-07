@@ -13,7 +13,14 @@ from gpiozero import Servo,AngularServo
 from time import sleep
 from pygame import mixer
 
-mixer.init()
+
+while True:
+    try:
+        mixer.init()
+        break
+    except:
+        print("mixer audio error")
+
 servo = AngularServo(17, min_angle = 0, max_angle = 180, min_pulse_width = 0.0006, max_pulse_width = 0.0024)
 
 
@@ -28,7 +35,7 @@ GPIO.setup(6, GPIO.OUT)
 GPIO.setup(26, GPIO.OUT)
 GPIO.setup(14, GPIO.OUT)
 GPIO.output(14, GPIO.LOW)
-
+servo.min()
 
 # Global Variables
 IP = "192.168.137.43"    # MODIFIABLE: Change server IP as needed. Should be hardcoded already
@@ -44,9 +51,17 @@ SEPARATOR = "<SEPARATOR>"
  # Files are stored in the path stated above.
  ##
 def listen_for_director():
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(ADDR)
     while True:
+        try: 
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client.connect(ADDR)
+            break
+        except:
+            print("connection error")
+
+    while True:
+        if GPIO.input(23) == GPIO.HIGH:
+            break
         msg = client.recv(SIZE).decode()
         if msg == "DISCONNECT":
             break
